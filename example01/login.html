@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.js"></script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form onsubmit="skapi.login(event, { onerror: handleError });" action="welcome.html">
+        <input type="email" name="email" required placeholder="E-Mail">
+        <br>
+        <input id="password" type="password" name="password" required placeholder="Password">
+        <br>
+        <input type="submit" value="Login">
+    </form>
+    <a href="forgot_password.html">Forgot Password?</a>
+    <div id="recovery" style="display: none;">
+        <p>This account is disabled.</p>
+        <button onclick="skapi.recoverAccount('http://mywebsite.com/welcome-back').then(r => alert(r))">Send Recovery E-Mail</button>
+    </div>
+</body>
+<script>
+    let skapi = new Skapi('ap22cPPliCZ5HTD2odru', 'ad5cb248-44f8-4f82-8f4d-655167007594');
+    function handleError(err) {
+        if(err?.code === 'USER_IS_DISABLED') {
+        recovery.style.display = 'block';
+    }
+    else {
+        alert(err.message);
+    }
+}
+</script>
