@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.js"></script>
+</head>
+
+<body>
+    <h1>Edit Profile</h1>
+    <form onsubmit='skapi.updateProfile(event, { onerror:(err)=>alert(err) })' action="profile.html">
+        <label>E-mail
+            <br>
+            <input type="email" name="email">
+        </label>
+        <br>
+        <br>
+        <label>Make E-Mail public
+            <br>
+            <input type="checkbox" name="email_public">
+        </label>
+        <br>
+        <br>
+        <label>Name
+            <br>
+            <input name="name">
+        </label>
+        <br>
+        <br>
+        <label>Address
+            <br>
+            <input name="address">
+        </label>
+        <br>
+        <br>
+        <label>Make address public
+            <br>
+            <input type="checkbox" name="address_public">
+        </label>
+        <br>
+        <br>
+        <label>Gender
+            <br>
+            <input name="gender">
+        </label>
+        <br>
+        <br>
+        <label>Make gender public
+            <br>
+            <input type="checkbox" name="gender_public">
+        </label>
+        <br>
+        <br>
+        <label>birthdate
+            <br>
+            <input type="date" name="birthdate">
+        </label>
+        <br>
+        <br>
+        <label>Make birthdate public
+            <input type="checkbox" name="birthdate_public">
+        </label>
+        <br>
+        <br>
+        <label>Subscribe to newsletters
+            <input type="checkbox" name="email_subscription">
+        </label>
+        <br>
+        <br>
+        <input type="submit">
+    </form>
+    <br>
+    <button onsubmit='emailVerification();'>Verify your E-Mail</h1>
+</body>
+<script>
+    // email: (v: string) => validateEmail(v),
+    // name: 'string',
+    // address: 'string',
+    // gender: 'string',
+    // birthdate: (v: string) => validateBirthdate(v),
+    // phone_number: (v: string) => validatePhoneNumber(v),
+    // email_public: 'boolean',
+    // phone_number_public: 'boolean',
+    // address_public: 'boolean',
+    // gender_public: 'boolean',
+    // birthdate_public: 'boolean',
+    // email_subscription: 'boolean'
+    let skapi = new Skapi('ap22cPPliCZ5HTD2odru', 'ad5cb248-44f8-4f82-8f4d-655167007594', { autoLogin: true });
+
+    skapi.getProfile().then(user => {
+        if (user === null) {
+            // user is not logged in!
+            // redirect to login page.
+            return window.location.replace("login.html");
+        }
+    });
+
+    async function emailVerification() {
+        // Send verification code to user's E-Mail
+        await skapi.verifyEmail();
+        let code = prompt('Enter the verification code:');
+        await skapi.verifyEmail({ code });
+        alert('Your E-Mail is verified!');
+    }
+</script>
