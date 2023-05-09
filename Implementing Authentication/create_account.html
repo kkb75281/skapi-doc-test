@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.js"></script>
+        <title>Create Account</title>
+    </head>
+    <body>
+        <h1>Create Account</h1>
+        <form onsubmit="skapi.signup(event, { onerror: err => alert(err.message) })" action="login.html">
+            <input type="email" name="email" placeholder="E-Mail" required>
+            <br>
+            <input id="password" type="password" name="password" placeholder="Password" required>
+            <br>
+            <input id="confirm_password" type="password" placeholder="Confirm Password" required
+                onchange="validatePassword()">
+            <br>
+            <input name="name" placeholder="Your name">
+            <br>
+            <input type="submit" value="Create Account">
+        </form>
+    </body>
+    <script>
+        let skapi = new Skapi('ap22cPPliCZ5HTD2odru', 'ad5cb248-44f8-4f82-8f4d-655167007594');
+        function validatePassword() {
+            if (password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords don't match");
+            }
+            else {
+                confirm_password.setCustomValidity('');
+            }
+        }
+    </script>
+</html>
